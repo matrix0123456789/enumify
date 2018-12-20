@@ -1,4 +1,4 @@
-# Enumify
+# Enumify with fromOrdinal
 
 A JavaScript library for enums. To be used by transpiled ES6 (e.g. via Babel).
 
@@ -45,6 +45,13 @@ The inherited tool method `enumValueOf()` maps names to values:
 
 ```js
 console.log(Color.enumValueOf('RED') === Color.RED); // true
+true
+```
+
+The inherited tool method `fromOrdinal()` maps value to name:
+
+```js
+console.log(Color.fromOrdinal(0) === Color.RED); // true
 true
 ```
 
