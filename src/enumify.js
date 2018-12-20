@@ -80,6 +80,13 @@ export class Enum {
     static enumValueOf(name) {
         return this.enumValues.find(x => x.name === name);
     }
+    
+    /**
+     * Given an ordinal, return an enum.
+     */
+    static fromOrdinal(ord){
+        return this.enumValues[ord];
+    }
 
     /**
      * Make enum classes iterable
