@@ -31,7 +31,7 @@ test('enumValues', () => {
     assert.deepStrictEqual(Color.enumValues, [Color.RED, Color.GREEN, Color.BLUE]);
 });
 test('json', () => {
-    let json=JSON.stringify(Color.GREEN);
+    let json = JSON.stringify(Color.GREEN);
     assert.equal(JSON.parse(json), Color.GREEN.ordinal);
     assert.deepStrictEqual(Color.enumValues, [Color.RED, Color.GREEN, Color.BLUE]);
 });
@@ -39,7 +39,7 @@ test('valueofOf', () => {
     assert.strictEqual(Number(Color.RED), 0);
     assert.strictEqual(Number(Color.GREEN), 1);
     assert.strictEqual(Number(Color.BLUE), 2);
-    assert.strictEqual(Color.BLUE*10, 20);
+    assert.strictEqual(Color.BLUE * 10, 20);
 });
 test('Class is closed (can’t be instantiated)', () => {
     assert.throws(() => {
@@ -184,8 +184,22 @@ test('Using the flags', () => {
     assert.strictEqual(
         Mode.USER_R | Mode.USER_W | Mode.USER_X | Mode.GROUP_R,
         0o740);
-    let user=Mode.USER_R | Mode.USER_W | Mode.USER_X;
+    let user = Mode.USER_R | Mode.USER_W | Mode.USER_X;
 
     assert.strictEqual(Boolean(user & Mode.USER_R), true)
     assert.strictEqual(Boolean(user & Mode.GROUP_R), false)
+});
+
+
+test('Short intrepresentation', () => {
+    class Bytes extends Enum {
+    }
+    Bytes.initEnum({
+        Byte: 1,
+        KiloByte: 1024,
+        MegaByte: 1024 * 1024,
+    });
+    assert.strictEqual(Bytes.fromOrdinal(1024), Bytes.KiloByte);
+
+    assert.strictEqual(Number(Bytes.MegaByte), 1048576);
 });

@@ -97,16 +97,12 @@ console.log(TicTacToeColor.O.inverse); // TicTacToeColor.X
 ## Custom number representation
 
 ```js
+class Bytes extends Enum {
+}
 Bytes.initEnum({
-    Byte: {
-        ordinal:1
-    },
-    KiloByte: {
-        ordinal:1024
-    },
-    MegaByte: {
-        ordinal:1024*1024
-    },
+    Byte: 1,
+    KiloByte: 1024,
+    MegaByte: 1024 * 1024,
 });
 console.log(Bytes.fromOrdinal(1024).name); // "KiloByte"
 

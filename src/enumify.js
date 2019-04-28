@@ -23,11 +23,14 @@ export class Enum {
         }
         if (typeof instanceProperties === 'object' && instanceProperties !== null) {
             copyProperties(this, instanceProperties);
+        } else if (typeof instanceProperties === 'number') {
+            this.ordinal = instanceProperties;
         }
     }
+
     /**
      * Set up the enum, close the class.
-     * 
+     *
      * @param arg Either an object whose properties provide the names
      * and values (which must be mutable objects) of the enum constants.
      * Or an Array whose elements are used as the names of the enum constants
