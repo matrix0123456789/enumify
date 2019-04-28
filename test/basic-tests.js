@@ -99,10 +99,10 @@ test('Custom prototype method', () => {
 });
 
 //-------------------------------------------------
-suite('Enum: flags')
+suite('Enum: flags manual')
 
-class Mode extends Enum {}
-Mode.initEnum({
+class ModeManual extends Enum {}
+ModeManual.initEnum({
     USER_R: {
         n: 0b100000000,
     },
@@ -131,13 +131,58 @@ Mode.initEnum({
         n: 0b000000001,
     },
 });
-test('Using the flags', () => {
+test('Using the manual flags', () => {
     assert.strictEqual(
-        Mode.USER_R.n | Mode.USER_W.n | Mode.USER_X.n |
-        Mode.GROUP_R.n | Mode.GROUP_X.n |
-        Mode.ALL_R.n | Mode.ALL_X.n,
+        ModeManual.USER_R.n | ModeManual.USER_W.n | ModeManual.USER_X.n |
+        ModeManual.GROUP_R.n | ModeManual.GROUP_X.n |
+        ModeManual.ALL_R.n | ModeManual.ALL_X.n,
         0o755);
     assert.strictEqual(
-        Mode.USER_R.n | Mode.USER_W.n | Mode.USER_X.n | Mode.GROUP_R.n,
+        ModeManual.USER_R.n | ModeManual.USER_W.n | ModeManual.USER_X.n | ModeManual.GROUP_R.n,
         0o740);
+});
+
+class Mode extends Enum {}
+Mode.initEnum({
+    USER_R: {
+        ordinal: 0b100000000,
+    },
+    USER_W: {
+        ordinal: 0b010000000,
+    },
+    USER_X: {
+        ordinal: 0b001000000,
+    },
+    GROUP_R: {
+        ordinal: 0b000100000,
+    },
+    GROUP_W: {
+        ordinal: 0b000010000,
+    },
+    GROUP_X: {
+        ordinal: 0b000001000,
+    },
+    ALL_R: {
+        ordinal: 0b000000100,
+    },
+    ALL_W: {
+        ordinal: 0b000000010,
+    },
+    ALL_X: {
+        ordinal: 0b000000001,
+    },
+});
+test('Using the flags', () => {
+    assert.strictEqual(
+        Mode.USER_R | Mode.USER_W | Mode.USER_X |
+        Mode.GROUP_R | Mode.GROUP_X |
+        Mode.ALL_R | Mode.ALL_X,
+        0o755);
+    assert.strictEqual(
+        Mode.USER_R | Mode.USER_W | Mode.USER_X | Mode.GROUP_R,
+        0o740);
+    let user=Mode.USER_R | Mode.USER_W | Mode.USER_X;
+
+    assert.strictEqual(Boolean(user & Mode.USER_R), true)
+    assert.strictEqual(Boolean(user & Mode.GROUP_R), false)
 });

@@ -1,4 +1,5 @@
 const INITIALIZED = Symbol();
+const MAX_ORDINAL = Symbol();
 
 /**
  * This is an abstract class that is not intended to be
@@ -33,12 +34,13 @@ export class Enum {
      * The values are create by instantiating the current class.
      */
     static initEnum(arg) {
-        Object.defineProperty(this, 'enumValues', {
-            value: [],
+        Object.defineProperty(this, 'enumByOrdinal', {
+            value: {},
             configurable: false,
             writable: false,
             enumerable: true,
-        });            
+        });
+        this[MAX_ORDINAL]=-1;
         if (Array.isArray(arg)) {
             this._enumValuesFromArray(arg);            
         } else {
@@ -64,14 +66,23 @@ export class Enum {
     
     static _pushEnumValue(enumValue, name) {
         enumValue.name = name;
-        enumValue.ordinal = this.enumValues.length;
+        if('ordinal' in enumValue)
+        {
+            if(this.enumByOrdinal[enumValue.ordinal]) throw new Error('Duplicate ordinal');
+            if(typeof enumValue.ordinal !=="number") throw new Error('Ordinal must be a number');
+        }
+        else{
+           enumValue.ordinal=this[MAX_ORDINAL]+1;
+        }
+        if(enumValue.ordinal>this[MAX_ORDINAL])
+            this[MAX_ORDINAL]=enumValue.ordinal;
         Object.defineProperty(this, name, {
             value: enumValue,
             configurable: false,
             writable: false,
             enumerable: true,
         });            
-        this.enumValues.push(enumValue);
+        this.enumByOrdinal[enumValue.ordinal]=enumValue;
     }
     
     /**
@@ -85,7 +96,7 @@ export class Enum {
      * Given an ordinal, return an enum.
      */
     static fromOrdinal(ord){
-        return this.enumValues[ord];
+        return this.enumByOrdinal[ord];
     }
 
     /**
@@ -116,6 +127,9 @@ export class Enum {
      */
     toJSON(){
         return this.ordinal;
+    }
+    static get enumValues(){
+        return Object.values(this.enumByOrdinal);
     }
 }
 export function copyProperties(target, source) {
