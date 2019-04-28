@@ -15,7 +15,7 @@ npm install enumify
 Use:
 
 ```js
-import {Enum} from 'enumify';
+import {Enum} from 'enumify-fork';
 
 class Color extends Enum {}
 Color.initEnum(['RED', 'GREEN', 'BLUE']);
@@ -66,7 +66,7 @@ Enumify adds two properties to every enum value:
     'BLUE'
     ```
 
-* `ordinal`: the position of the enum value within the Array `enumValues`.
+* `ordinal`: the number representation.
 
     ```repl
     > Color.BLUE.ordinal
@@ -94,7 +94,24 @@ TicTacToeColor.initEnum({
 
 console.log(TicTacToeColor.O.inverse); // TicTacToeColor.X
 ```
+## Custom number representation
 
+```js
+Bytes.initEnum({
+    Byte: {
+        ordinal:1
+    },
+    KiloByte: {
+        ordinal:1024
+    },
+    MegaByte: {
+        ordinal:1024*1024
+    },
+});
+console.log(Bytes.fromOrdinal(1024).name); // "KiloByte"
+
+console.log(Number(Bytes.MegaByte)); // 1048576
+```
 ## More information
 
 * The directory `test/` contains examples.

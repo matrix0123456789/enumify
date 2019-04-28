@@ -36,6 +36,9 @@ test('json', () => {
     assert.deepStrictEqual(Color.enumValues, [Color.RED, Color.GREEN, Color.BLUE]);
 });
 test('valueofOf', () => {
+    assert.strictEqual(Number(Color.RED), 0);
+    assert.strictEqual(Number(Color.GREEN), 1);
+    assert.strictEqual(Number(Color.BLUE), 2);
     assert.strictEqual(Color.BLUE*10, 20);
 });
 test('Class is closed (can’t be instantiated)', () => {
