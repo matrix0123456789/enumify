@@ -101,6 +101,22 @@ export class Enum {
     toString() {
         return `${this.constructor.name}.${this.name}`;
     }
+
+    /**
+     * When used as number
+     * @returns Number
+     */
+    valueOf(){
+        return this.ordinal;
+    }
+
+    /**
+     * when serializing
+     * @returns {*}
+     */
+    toJSON(){
+        return this.ordinal;
+    }
 }
 export function copyProperties(target, source) {
     // Ideally, we’d use Reflect.ownKeys() here,

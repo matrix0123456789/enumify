@@ -30,6 +30,14 @@ test('fromOrdinal', () => {
 test('enumValues', () => {
     assert.deepStrictEqual(Color.enumValues, [Color.RED, Color.GREEN, Color.BLUE]);
 });
+test('json', () => {
+    let json=JSON.stringify(Color.GREEN);
+    assert.equal(JSON.parse(json), Color.GREEN.ordinal);
+    assert.deepStrictEqual(Color.enumValues, [Color.RED, Color.GREEN, Color.BLUE]);
+});
+test('valueofOf', () => {
+    assert.strictEqual(Color.BLUE*10, 20);
+});
 test('Class is closed (can’t be instantiated)', () => {
     assert.throws(() => {
         new Color();
